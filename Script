@@ -1,0 +1,37 @@
+// ==UserScript==
+// @name         Website Time Tracker
+// @namespace    http://tampermonkey.net/
+// @version      1.0
+// @description  Tracks time spent on a website like YouTube
+// @match        *://*.youtube.com/*
+// @match        *://*.reddit.com/*
+// @match        *://*.twitter.com/*
+// @grant        none
+// ==/UserScript==
+
+(function() {
+    'use strict';
+    let seconds = 0;
+    const timer = document.createElement('div');
+    timer.style.cssText = `
+        position: fixed;
+        bottom: 10px;
+        right: 10px;
+        background: rgba(0,0,0,0.5);
+        color: white;
+        font-size: 12px;
+        padding: 4px 8px;
+        border-radius: 6px;
+        z-index: 9999;
+        font-family: sans-serif;
+    `;
+    document.body.appendChild(timer);
+
+    setInterval(() => {
+        seconds++;
+        const mins = Math.floor(seconds / 60);
+        const hrs = Math.floor(mins / 60);
+        const secs = seconds % 60;
+        timer.textContent = `Time: ${hrs}h ${mins}m ${secs}s`;
+    }, 1000);
+})();
